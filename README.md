@@ -10,6 +10,14 @@ This setup requires **WhateverXe-Graphics 0.4.3** to be installed in macOS:
 
 Install the package in macOS; it is not copied into the EFI folder.
 
+## Required microphone HAL
+
+This EFI includes `TGLDmic.kext` 0.5.0 in OpenCore. To expose the internal digital microphones to Core Audio, also install the matching HAL package in macOS:
+
+[Download the TGLDmic 0.5.0 HAL build with the `imic` source fix](downloads/TGLDmic-0.5.0-HAL-imic-source-fix.pkg)
+
+The installer places `TGLDmic.driver` in `/Library/Audio/Plug-Ins/HAL` and restarts Core Audio. After installation, select **Internal Microphone (TGLDmic)** as the default input in macOS Sound settings. This is a locally built, unsigned package; use macOS Installer or Control-click → Open if Gatekeeper blocks it. The HAL component is separate from the EFI kext, but both are needed for applications such as Siri to use the internal microphone.
+
 ## Install the EFI
 
 1. Back up the working EFI before replacing anything.
