@@ -12,12 +12,15 @@ Configuración OpenCore para **Dell Latitude 3420**, Intel **Core i5-1135G7 (Tig
 | Escalado de frecuencia de CPU | **Funciona** | El escalado de frecuencias funciona bien. |
 | Sonido | **Funciona** | La salida de audio funciona. |
 | Micrófono digital interno | **Funciona** | TGLDmic capturó 144,000 frames en 3.02 s. Core Audio informa `imic`; Siri reconoció una frase con TGLDmic como entrada predeterminada. |
-| Micrófono en WhatsApp | **Funciona** | WhatsApp recibió audio en una prueba anterior. |
-| Wi-Fi y Bluetooth | **Funcionan** | Ambos funcionan en esta instalación. |
+| Wi-Fi y Bluetooth | **Funcionan** | Intel Wi-Fi 6 AX201 (PCI `8086:a0f0`, subsistema `8086:4070`); ambos funcionan en esta instalación. |
 | Aceleración gráfica | **Funciona** | La aceleración por GPU está funcionando. |
+| YouTube / procesamiento de video por hardware | **Funciona parcialmente** | Los registros locales muestran bloqueos repetidos de CCS durante el procesamiento de `mediaanalysisd`, seguidos por WindowServer esperando al controlador Intel. Reportes relacionados de Tiger Lake: [#75](https://github.com/b00t0x/WhateverXe/issues/75) y [#81](https://github.com/b00t0x/WhateverXe/issues/81). Una mitigación VA experimental y específica aún no está compilada ni instalada. |
 | HDMI | **Funciona con un problema** | La salida 4K muestra un filtro morado. |
-| Reposo/reactivación (sleep/wake) | **No funciona** | El problema se atribuye a WhateverXe-Graphics; ya hay un PR abierto para corregirlo. |
-| Teclado e interrupciones GPIO | **Sin prueba independiente registrada** | La EFI contiene la configuración VoodooI2C/VoodooPS2 y ACPI actual, pero falta una prueba específica. |
+| Reposo/reactivación (sleep/wake) | **No funciona** | Reportes relacionados de Tiger Lake: [#86](https://github.com/b00t0x/WhateverXe/issues/86) describe un bloqueo de `GFX0` al entrar en reposo; [#59](https://github.com/b00t0x/WhateverXe/issues/59) describe un equipo que entra en reposo pero no despierta. Ninguno corresponde a este Latitude 3420, así que son referencias, no un diagnóstico confirmado. |
+| Teclado y teclas especiales | **Funcionan** | Funcionan el teclado y las teclas de brillo y volumen. |
+| Almacenamiento NVMe | **Funciona** | La unidad NVMe funciona. |
+
+Los reportes de reposo/reactivación de WhateverXe anteriores describen rutas distintas de energía y pantalla en Tiger Lake. El issue #86 informa `GFX0() : Some drivers failed to handle setPowerState` al entrar en reposo, a menudo después de varios despertares oscuros conectado a la corriente; está aceptado para revisión en la lista de trabajo. El issue #59 informa que un portátil Tiger Lake-H35 no logra despertar y también presenta un problema relacionado con una pantalla HDMI externa. El repositorio público no muestra actualmente un pull request abierto vinculado a ninguno de esos issues, y ninguno confirma la causa en este Latitude 3420. Los reportes separados #75 y #81 tratan de YouTube/VideoToolbox y bloqueos VA/CCS; no son correcciones de sleep/wake.
 
 ### Resultados de la prueba del micrófono
 

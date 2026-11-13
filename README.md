@@ -12,12 +12,15 @@ OpenCore EFI for the **Dell Latitude 3420**, Intel **Core i5-1135G7 (Tiger Lake)
 | CPU frequency scaling | **Working** | Frequency scaling works well. |
 | Sound output | **Working** | Audio output works. |
 | Internal digital microphone | **Working** | TGLDmic probe captured 144,000 frames in 3.02 s. Core Audio reports source `imic`; Siri recognized a spoken phrase with TGLDmic selected as the default input. |
-| WhatsApp microphone input | **Working** | Microphone input worked in WhatsApp. |
-| Wi-Fi and Bluetooth | **Working** | Both are working on this installation. |
+| Wi-Fi and Bluetooth | **Working** | Intel Wi-Fi 6 AX201 (PCI `8086:a0f0`, subsystem `8086:4070`); Wi-Fi and Bluetooth work on this installation. |
 | GPU acceleration | **Working** | Graphics acceleration is working. |
+| YouTube / hardware video processing | **Partially working** | Local logs show repeated CCS hangs during `mediaanalysisd` processing, followed by WindowServer waiting on the Intel driver. Related Tiger Lake reports: [#75](https://github.com/b00t0x/WhateverXe/issues/75) and [#81](https://github.com/b00t0x/WhateverXe/issues/81). An experimental narrow VA workaround is not built or installed. |
 | HDMI | **Working with an issue** | 4K output has a purple color filter. |
-| Sleep/wake | **Broken** | The issue is attributed to WhateverXe-Graphics; a PR to fix it is already open. |
-| Keyboard and GPIO interrupts | **Not independently verified** | The EFI includes the current VoodooI2C/VoodooPS2 and ACPI setup, but there is no separate recorded test result. |
+| Sleep/wake | **Broken** | Related Tiger Lake reports: [#86](https://github.com/b00t0x/WhateverXe/issues/86) describes a hard freeze entering sleep in `GFX0`; [#59](https://github.com/b00t0x/WhateverXe/issues/59) describes sleep that enters but never wakes. Neither report is from this Latitude 3420, so they are references rather than a confirmed diagnosis. |
+| Keyboard and special keys | **Working** | Keyboard input and brightness/volume keys work. |
+| NVMe storage | **Working** | The NVMe drive works. |
+
+The WhateverXe sleep reports above describe separate Tiger Lake power-management/display paths. Issue #86 reports `GFX0() : Some drivers failed to handle setPowerState` during sleep entry, often after repeated dark wakes on AC; it is marked accepted into the backlog. Issue #59 reports failed wake on a Tiger Lake-H35 laptop and a related external HDMI display problem. The public repository currently shows no open pull request linked to either issue, and neither report confirms the cause on this Latitude 3420. The separate video-processing reports #75 and #81 concern YouTube/VideoToolbox and VA/CCS hangs; they are not sleep/wake fixes.
 
 ### Microphone probe results
 
