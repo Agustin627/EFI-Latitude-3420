@@ -26,7 +26,7 @@ The installer places `TGLDmic.driver` in `/Library/Audio/Plug-Ins/HAL` and resta
 4. Generate unique SMBIOS values for your own machine and set `SystemSerialNumber`, `MLB`, `ROM`, and `SystemUUID` under `PlatformInfo -> Generic`. Do not reuse anyone else's values.
 5. Validate the config with the matching OpenCore `ocvalidate` before rebooting.
 
-The real `config.plist` is excluded by `.gitignore`; only the redacted sample is tracked.
+The real `config.plist` is excluded by `.gitignore`; only `config.sample.plist` is tracked. The sample uses the alternate SMBIOS values supplied for publication, but its `ROM` is redacted because the supplied file reused the active EFI's ROM. Generate your own `SystemSerialNumber`, `MLB`, `ROM`, and `SystemUUID` before using this config on another machine; do not reuse a public SMBIOS identity.
 
 ## Contents
 
