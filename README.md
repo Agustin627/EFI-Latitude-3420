@@ -1,41 +1,61 @@
-# EFI — Dell Latitude 3420
+# Dell Latitude 3420 Hackintosh EFI
 
-OpenCore EFI configuration for the Dell Latitude 3420 with Intel Tiger Lake graphics.
+[Español](README.es.md)
 
-## Required graphics package
+OpenCore EFI for the **Dell Latitude 3420**, Intel **Core i5-1135G7 (Tiger Lake)**, and macOS Tahoe. This repository documents the tested configuration, required graphics and microphone components, and the current hardware status.
 
-This setup requires **WhateverXe-Graphics 0.4.3** to be installed in macOS:
+## Hardware status
 
-[Download WhateverXe-Graphics-0.4.3.pkg](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.3/WhateverXe-Graphics-0.4.3.pkg)
+| Component or feature | Status | Evidence / notes |
+|---|---|---|
+| Touchpad | **Working** | The touchpad works correctly with the current EFI. |
+| Internal digital microphone | **Working** | TGLDmic probe captured 144,000 frames in 3.02 s. Core Audio reports source `imic`; Siri recognized a spoken phrase with TGLDmic selected as the default input. |
+| WhatsApp microphone input | **Working** | Microphone input worked in WhatsApp. |
+| ChatGPT dictation and app permission prompts | **Needs retest** | App-specific microphone permission visibility was previously reported as inconsistent; it was not revalidated after the Siri fix. |
+| Keyboard and GPIO interrupts | **Not independently verified** | The EFI includes the current VoodooI2C/VoodooPS2 and ACPI setup, but there is no separate recorded test result. |
+| CPU frequency scaling, sleep/wake, Wi-Fi/Bluetooth, HDMI | **Not verified** | No current test results are recorded here; this does not mean these features are known to fail. |
 
-Install the package in macOS; it is not copied into the EFI folder.
+### Microphone probe results
 
-## Required microphone HAL
+- `start: 0x0`; 144,000 frames in 3.02 s (47,673 frames/s).
+- Channels 0/1: RMS −54.0 dBFS, peak −31.1 dBFS.
+- Channels 2/3: RMS −37.3 dBFS, peak −12.0 dBFS.
+- The probe calculated levels in memory and did not save a WAV file.
 
-This EFI includes `TGLDmic.kext` 0.5.0 in OpenCore. To expose the internal digital microphones to Core Audio, also install the matching HAL package in macOS:
+## Required components
 
-[Download the TGLDmic 0.5.0 HAL build with the `imic` source fix](downloads/TGLDmic-0.5.0-HAL-imic-source-fix.pkg)
+### Intel graphics
 
-The installer places `TGLDmic.driver` in `/Library/Audio/Plug-Ins/HAL` and restarts Core Audio. After installation, select **Internal Microphone (TGLDmic)** as the default input in macOS Sound settings. This is a locally built, unsigned package; use macOS Installer or Control-click → Open if Gatekeeper blocks it. The HAL component is separate from the EFI kext, but both are needed for applications such as Siri to use the internal microphone.
+Install **WhateverXe-Graphics 0.4.3** in macOS:
 
-## Install the EFI
+[Download WhateverXe-Graphics 0.4.3](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.3/WhateverXe-Graphics-0.4.3.pkg)
 
-1. Back up the working EFI before replacing anything.
-2. Copy the `EFI` directory in this repository to the root of the EFI System Partition.
-3. Before booting, create `EFI/OC/config.plist` from `EFI/OC/config.sample.plist`.
-4. Generate unique SMBIOS values for your own machine and set `SystemSerialNumber`, `MLB`, `ROM`, and `SystemUUID` under `PlatformInfo -> Generic`. Do not reuse anyone else's values.
+The package is installed in macOS; it is not copied into the EFI partition.
+
+### Internal microphone
+
+The EFI includes `TGLDmic.kext` 0.5.0. Install its matching HAL component in macOS, then select **Internal Microphone (TGLDmic)** as the default input:
+
+[Download patched TGLDmic 0.5.0 HAL installer](https://raw.githubusercontent.com/Agustin627/TGLDmic/fix/hal-internal-microphone-source/downloads/TGLDmic-0.5.0-HAL-imic-source-fix.pkg) · [local copy](downloads/TGLDmic-0.5.0-HAL-imic-source-fix.pkg)
+
+The installer places `TGLDmic.driver` in `/Library/Audio/Plug-Ins/HAL` and restarts Core Audio. This locally built package is unsigned; macOS may require Control-click → Open. The HAL installer is a macOS component, not an EFI driver.
+
+## Installation
+
+1. Back up the working EFI before replacing it.
+2. Copy the `EFI` directory from this repository to the root of the EFI System Partition.
+3. Copy `EFI/OC/config.sample.plist` to `EFI/OC/config.plist`.
+4. Before booting on another computer, generate and set that computer's own `SystemSerialNumber`, `MLB`, `ROM`, and `SystemUUID` under `PlatformInfo -> Generic`. Do not reuse a published SMBIOS identity.
 5. Validate the config with the matching OpenCore `ocvalidate` before rebooting.
+6. Install the required macOS packages linked above and select TGLDmic as the default input if using the internal microphone.
 
-The real `config.plist` is excluded by `.gitignore`; only `config.sample.plist` is tracked. The sample uses the alternate SMBIOS values supplied for publication, but its `ROM` is redacted because the supplied file reused the active EFI's ROM. Generate your own `SystemSerialNumber`, `MLB`, `ROM`, and `SystemUUID` before using this config on another machine; do not reuse a public SMBIOS identity.
+The active `config.plist` is excluded by `.gitignore`. The tracked sample is based on the supplied configuration; its `ROM` is redacted because it matched the active EFI. The sample SMBIOS is for reference only—generate unique values for the actual computer.
 
-## Contents
+## Repository contents
 
-- `EFI/BOOT`: UEFI fallback bootloader.
+- `EFI/BOOT`: UEFI fallback loader.
 - `EFI/OC/ACPI`: SSDTs used by this configuration.
 - `EFI/OC/Drivers`: OpenCore UEFI drivers.
-- `EFI/OC/Kexts`: kernel extensions used by this installation.
+- `EFI/OC/Kexts`: kext bundles used by this installation.
 - `EFI/OC/Resources`: OpenCanopy resources.
-
-## Hardware notes
-
-The running installation reports SMBIOS `MacBookPro16,2`; the physical laptop is a Dell Latitude 3420 with an Intel Core i5-1135G7 and Tiger Lake SST audio (`8086:A0C8`). Adjust device-specific settings before using this EFI on another computer.
+- `downloads/`: local copy of the patched TGLDmic HAL installer.
