@@ -1,0 +1,10 @@
+# Per-machine SMBIOS identity: never commit this file.
+EFI/OC/config.plist
+EFI/OC/config.local.plist
+
+# macOS / FAT volume metadata
+.DS_Store
+._*
+.fseventsd/
+.Spotlight-V100/
+.Trashes/
