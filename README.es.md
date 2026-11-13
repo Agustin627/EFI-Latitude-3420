@@ -9,11 +9,15 @@ Configuración OpenCore para **Dell Latitude 3420**, Intel **Core i5-1135G7 (Tig
 | Componente o función | Estado | Evidencia / nota |
 |---|---|---|
 | Touchpad | **Funciona** | El touchpad funciona correctamente con esta EFI. |
+| Escalado de frecuencia de CPU | **Funciona** | El escalado de frecuencias funciona bien. |
+| Sonido | **Funciona** | La salida de audio funciona. |
 | Micrófono digital interno | **Funciona** | TGLDmic capturó 144,000 frames en 3.02 s. Core Audio informa `imic`; Siri reconoció una frase con TGLDmic como entrada predeterminada. |
 | Micrófono en WhatsApp | **Funciona** | WhatsApp recibió audio en una prueba anterior. |
-| Dictado de ChatGPT y avisos de permisos | **Pendiente de verificar** | Antes se reportó que los avisos de permiso del micrófono no aparecían de forma consistente; no se volvió a probar tras corregir Siri. |
+| Wi-Fi y Bluetooth | **Funcionan** | Ambos funcionan en esta instalación. |
+| Aceleración gráfica | **Funciona** | La aceleración por GPU está funcionando. |
+| HDMI | **Funciona con un problema** | La salida 4K muestra un filtro morado. |
+| Reposo/reactivación (sleep/wake) | **No funciona** | El problema se atribuye a WhateverXe-Graphics; ya hay un PR abierto para corregirlo. |
 | Teclado e interrupciones GPIO | **Sin prueba independiente registrada** | La EFI contiene la configuración VoodooI2C/VoodooPS2 y ACPI actual, pero falta una prueba específica. |
-| Escalado de frecuencia de CPU, reposo/reactivación, Wi-Fi/Bluetooth y HDMI | **No verificados** | No hay resultados actuales registrados; esto no significa que se haya confirmado que fallen. |
 
 ### Resultados de la prueba del micrófono
 

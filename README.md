@@ -9,11 +9,15 @@ OpenCore EFI for the **Dell Latitude 3420**, Intel **Core i5-1135G7 (Tiger Lake)
 | Component or feature | Status | Evidence / notes |
 |---|---|---|
 | Touchpad | **Working** | The touchpad works correctly with the current EFI. |
+| CPU frequency scaling | **Working** | Frequency scaling works well. |
+| Sound output | **Working** | Audio output works. |
 | Internal digital microphone | **Working** | TGLDmic probe captured 144,000 frames in 3.02 s. Core Audio reports source `imic`; Siri recognized a spoken phrase with TGLDmic selected as the default input. |
 | WhatsApp microphone input | **Working** | Microphone input worked in WhatsApp. |
-| ChatGPT dictation and app permission prompts | **Needs retest** | App-specific microphone permission visibility was previously reported as inconsistent; it was not revalidated after the Siri fix. |
+| Wi-Fi and Bluetooth | **Working** | Both are working on this installation. |
+| GPU acceleration | **Working** | Graphics acceleration is working. |
+| HDMI | **Working with an issue** | 4K output has a purple color filter. |
+| Sleep/wake | **Broken** | The issue is attributed to WhateverXe-Graphics; a PR to fix it is already open. |
 | Keyboard and GPIO interrupts | **Not independently verified** | The EFI includes the current VoodooI2C/VoodooPS2 and ACPI setup, but there is no separate recorded test result. |
-| CPU frequency scaling, sleep/wake, Wi-Fi/Bluetooth, HDMI | **Not verified** | No current test results are recorded here; this does not mean these features are known to fail. |
 
 ### Microphone probe results
 
